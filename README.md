@@ -48,7 +48,7 @@ length of a sequence. The reduced matrix looks like:
 |ATTAGACCTG      | (AGACCTGCCG, 7)              |
 |CCTGCCGGAA      | (GCCGGAATAC, 7)              |
 |AGACCTGCCG      | (CCTGCCGGAA, 7)              |
-<br>       
+      
 Now get the starting sequence by finding the key that does not appear as a value anywhere: `ATTAGACCTG`. 
 "Follow" this to AGACCTGCCG then follow that to `CTGCCGGAA` and that t `GCCGGAATAC` 
 where the trail ends. Having collected this trail, combine each pair using the given 
