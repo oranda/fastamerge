@@ -61,10 +61,10 @@ Running
 =======
      
 1. Make sure you have [Scala](http://www.scala-lang.org/download/) and [sbt](http://www.scala-sbt.org/download.html) installed.
-2. If you don't have a recent version of Spark, [download and install it](http://spark.apache.org/downloads.html).
+2. If you don't have Spark 1.6 or greater, [download and install it](http://spark.apache.org/downloads.html).
 3. Consider turning off excessive logging in Spark. 
  In Spark's `conf` directory, copy `log4j.properties.template` to  `log4j.properties`
- and set `log4j.rootCategory` to `INFO`.
+ and set `log4j.rootCategory` to `WARN`.
 4. Clone this project (or download and unzip).
 5. In the project's root, from the command-line run `sbt package`.
 6. In the project's root, from the command-line run 
