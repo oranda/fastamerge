@@ -46,7 +46,7 @@ object MergeFasta {
     val conf = new SparkConf().setAppName("MergeFasta")
     val sc = new SparkContext(conf)
 
-    val initialSeqSet = sc.parallelize(parseFastaData("fasta_data.txt")).cache()
+    val initialSeqSet = sc.parallelize(parseFastaData("fasta_data.txt"))
     val combinedSeq = mergeSequences(initialSeqSet)
     showResult(initialSeqSet, combinedSeq)
   }
@@ -55,7 +55,7 @@ object MergeFasta {
    * Assemble sequence fragments into a single sequence.
    */
   def mergeSequences(seqSet: SequenceSet): String = {
-    val overlapMatrix = findOverlappingPairs(seqSet).cache()
+    val overlapMatrix = findOverlappingPairs(seqSet)
     val startingSeq = findStartingSeq(overlapMatrix)
     followSequences(overlapMatrix.collectAsMap(), startingSeq, startingSeq)
   }
@@ -66,8 +66,9 @@ object MergeFasta {
    * If there isn't exactly one, show an error and exit.
    */
   def findStartingSeq(matrix: OverlapMatrixReduced): String = {
-    val values = matrix.values.map(_._1).cache()
-    val startingSeqs = matrix.keys.subtract(values).cache()
+    matrix.cache()
+    val values = matrix.values.map(_._1)
+    val startingSeqs = matrix.keys.subtract(values)
 
     startingSeqs.count match {
       case 0 => throw new RuntimeException("ERROR: no starting sequence")
@@ -83,7 +84,7 @@ object MergeFasta {
    * only matches that overlap by more than half their length.
    */
   def findOverlappingPairs(seqSet: SequenceSet): OverlapMatrixReduced =
-    reduceToGoodMatches(buildOverlapMatrix(seqSet).cache())
+    reduceToGoodMatches(buildOverlapMatrix(seqSet))
 
   /**
    * From a set of sequence fragments, form a matrix of overlap information.
